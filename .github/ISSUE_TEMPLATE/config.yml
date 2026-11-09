@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Instalación o adaptación por NEZU
+    url: https://nezuecuador.com/es/contacto
+    about: Si prefieres que lo instalemos o lo adaptemos a tu caso, escríbenos y te respondemos con una propuesta.
+  - name: Fallo de seguridad
+    url: https://github.com/NezuSas/adb-bridge/security/policy
+    about: No lo reportes en un issue público; sigue la política de seguridad.
