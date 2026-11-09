@@ -1,0 +1,35 @@
+name: Reporte de fallo
+description: Algo no funciona como dice la documentación.
+title: "fix: "
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Qué ocurre
+      description: Qué esperabas y qué pasó en su lugar.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Cómo reproducirlo
+      description: Pasos mínimos, en orden.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Entorno
+      description: Sistema operativo, versión de Python 3 y FastAPI y cómo lo ejecutas (Docker, local, otro).
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Registros o capturas
+      description: Sin tokens, contraseñas, direcciones internas ni datos de clientes.
