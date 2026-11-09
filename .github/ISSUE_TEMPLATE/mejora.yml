@@ -1,0 +1,28 @@
+name: Propuesta de mejora
+description: Una función o un cambio que te gustaría ver en el puente.
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qué problema resuelve
+      description: El caso real que hoy no puedes cubrir.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Qué propones
+      description: Cómo lo resolverías; si hay alternativas, cuáles descartaste y por qué.
+    validations:
+      required: true
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: ¿Te animas a implementarlo?
+      options:
+        - Sí, puedo enviar un pull request
+        - Prefiero que lo valore NEZU
+    validations:
+      required: true
