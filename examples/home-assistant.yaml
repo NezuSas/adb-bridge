@@ -1,0 +1,75 @@
+# Controlar una pantalla Android desde Home Assistant a través de ADB Bridge.
+# Copia estos bloques a configuration.yaml (o a tus paquetes) y cambia la IP del puente y la de la pantalla.
+#
+#   BRIDGE   → http://192.168.1.10:5001   (equipo donde corre adb-bridge)
+#   PANTALLA → 192.168.1.50:5555          (Android con depuración por red)
+
+rest_command:
+  pizarra_despertar:
+    url: "http://192.168.1.10:5001/adb/execute"
+    method: POST
+    content_type: "application/json"
+    payload: '{"adb_identifier": "192.168.1.50:5555", "command": "input keyevent KEYCODE_WAKEUP"}'
+    timeout: 30
+
+  pizarra_dormir:
+    url: "http://192.168.1.10:5001/adb/execute"
+    method: POST
+    content_type: "application/json"
+    payload: '{"adb_identifier": "192.168.1.50:5555", "command": "input keyevent KEYCODE_SLEEP"}'
+    timeout: 30
+
+  # Abre una URL en el navegador de la pantalla (por ejemplo, un tablero).
+  pizarra_abrir_url:
+    url: "http://192.168.1.10:5001/adb/execute"
+    method: POST
+    content_type: "application/json"
+    payload: '{"adb_identifier": "192.168.1.50:5555", "command": "am start -a android.intent.action.VIEW -d {{ url }}"}'
+    timeout: 30
+
+  # Volumen multimedia: índice 0–15 según el dispositivo.
+  pizarra_volumen:
+    url: "http://192.168.1.10:5001/adb/execute"
+    method: POST
+    content_type: "application/json"
+    payload: '{"adb_identifier": "192.168.1.50:5555", "command": "cmd media_session volume --stream 3 --set {{ nivel }}"}'
+    timeout: 30
+
+# La pantalla se enciende con la primera persona que llega por la mañana y se apaga de noche.
+automation:
+  - alias: "Pizarra: encender al detectar movimiento"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.movimiento_entrada
+        to: "on"
+    condition:
+      - condition: time
+        after: "07:00:00"
+        before: "22:00:00"
+    action:
+      - service: rest_command.pizarra_despertar
+
+  - alias: "Pizarra: apagar de noche"
+    trigger:
+      - platform: time
+        at: "22:30:00"
+    action:
+      - service: rest_command.pizarra_dormir
+
+  - alias: "Pizarra: abrir el tablero al encender"
+    trigger:
+      - platform: time
+        at: "07:00:00"
+    action:
+      - service: rest_command.pizarra_despertar
+      - delay: "00:00:03"
+      - service: rest_command.pizarra_abrir_url
+        data:
+          url: "http://192.168.1.20:8080/"
+
+# Un botón en el tablero de Home Assistant para despertar la pantalla a mano.
+script:
+  despertar_pizarra:
+    alias: "Despertar pizarra"
+    sequence:
+      - service: rest_command.pizarra_despertar

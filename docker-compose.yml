@@ -1,0 +1,19 @@
+# ADB Bridge en Docker. Red del host: el puente debe ver a las pantallas Android de la LAN
+# y escucha en el puerto 5001 solo para la red local (ver «Seguridad» en el README).
+services:
+  adb-bridge:
+    build: .
+    container_name: adb-bridge
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      # Conserva la clave ADB del puente entre reinicios: así las pantallas no vuelven a pedir autorización.
+      - adb_keys:/root/.android
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:5001/', timeout=3)\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  adb_keys:

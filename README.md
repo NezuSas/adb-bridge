@@ -4,6 +4,8 @@
 
 # ADB Bridge
 
+> **In English.** A minimal FastAPI service that runs ADB commands on Android displays over the local network and handles the flaky parts of ADB over Wi-Fi: on-demand connection, keepalive, retries and per-device locking. Ships with Docker Compose, a Home Assistant example and a command cheat sheet. Apache 2.0.
+
 Servicio HTTP mínimo, en Python y FastAPI, que ejecuta comandos ADB sobre dispositivos Android conectados por red (`IP:PUERTO`) y devuelve el resultado. Permite que un sistema de automatización controle pantallas y dispositivos Android desde la red local sin tener ADB instalado en cada cliente.
 
 ## Qué resuelve
@@ -31,11 +33,17 @@ curl -s -X POST http://127.0.0.1:5001/adb/execute \
 
 ## Ejecutar
 
-Con Docker, que ya incluye `android-tools-adb`:
+Con Docker Compose, que ya incluye `android-tools-adb` y conserva la clave ADB entre reinicios:
+
+```bash
+docker compose up -d --build
+```
+
+O con Docker a secas:
 
 ```bash
 docker build -t adb-bridge .
-docker run -d --name adb-bridge --network host adb-bridge
+docker run -d --name adb-bridge --network host -v adb_keys:/root/.android adb-bridge
 ```
 
 Sin Docker, con ADB instalado en el sistema:
@@ -45,7 +53,17 @@ pip install fastapi "uvicorn[standard]" pydantic
 uvicorn main:app --host 0.0.0.0 --port 5001
 ```
 
-El servicio escucha en el puerto `5001`. Los dispositivos deben tener la depuración por red habilitada y haber autorizado la clave ADB del equipo donde corre el puente.
+El servicio escucha en el puerto `5001`. Los dispositivos deben tener la depuración por red habilitada y haber autorizado la clave ADB del equipo donde corre el puente; cómo prepararlos, en [`examples/commands.md`](examples/commands.md).
+
+## Ejemplos
+
+| Archivo | Para qué |
+|---|---|
+| [`examples/home-assistant.yaml`](examples/home-assistant.yaml) | Controlar la pantalla desde Home Assistant: `rest_command` para despertar, dormir, abrir una URL y subir el volumen, con automatizaciones de ejemplo (encender con movimiento, apagar de noche, abrir el tablero por la mañana). |
+| [`examples/commands.md`](examples/commands.md) | Chuleta de comandos para pantalla, navegación, apps, sonido e información del equipo; cómo preparar la pantalla una sola vez; y qué significan `unauthorized`, `offline` y `unknown`. |
+| [`docker-compose.yml`](docker-compose.yml) | Despliegue con reinicio automático, comprobación de salud y clave ADB persistente. |
+
+Cualquier cliente HTTP sirve: Node-RED, n8n, un cron con `curl`, o la API de tu propio sistema.
 
 ## Ajustes
 
