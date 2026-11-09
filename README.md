@@ -55,6 +55,10 @@ Los límites son constantes al inicio de `main.py`: trabajadores concurrentes, t
 
 El puente no autentica peticiones. Debe correr **solo en la red local** o detrás de un servicio que sí autorice, y nunca exponerse a internet: cualquiera que alcance el puerto puede ejecutar comandos en los dispositivos.
 
+## ¿Lo necesitas en tu instalación?
+
+Esta herramienta es gratuita: la publicamos porque la usamos en nuestros propios proyectos. Si quieres controlar pantallas Android en tu local, oficina o casa y prefieres que lo instalemos, lo adaptemos a tu caso o lo integremos con el resto de tu sistema, [cuéntanos qué necesitas](https://nezuecuador.com/es/contacto) y te respondemos con una propuesta concreta. Aquí está [lo que hacemos](https://nezuecuador.com/es/servicios).
+
 ---
 
 <div align="center">
