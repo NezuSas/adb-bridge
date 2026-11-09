@@ -59,8 +59,12 @@ El puente no autentica peticiones. Debe correr **solo en la red local** o detrá
 
 Esta herramienta es gratuita: la publicamos porque la usamos en nuestros propios proyectos. Si quieres controlar pantallas Android en tu local, oficina o casa y prefieres que lo instalemos, lo adaptemos a tu caso o lo integremos con el resto de tu sistema, [cuéntanos qué necesitas](https://nezuecuador.com/es/contacto) y te respondemos con una propuesta concreta. Aquí está [lo que hacemos](https://nezuecuador.com/es/servicios).
 
+## Licencia
+
+Apache 2.0: puedes usar, modificar y redistribuir este código, también en proyectos comerciales, conservando el aviso de copyright. La licencia no concede derechos sobre la marca NEZU. Texto completo en [LICENSE](LICENSE).
+
 ---
 
 <div align="center">
-  <sub>Parte del ecosistema <a href="https://github.com/NezuSas">NEZU</a> · <a href="https://nezuecuador.com">nezuecuador.com</a> · © NEZU S.A.S. Publicado para clientes e integradores de NEZU.</sub>
+  <sub>Parte del ecosistema <a href="https://github.com/NezuSas">NEZU</a> · <a href="https://nezuecuador.com">nezuecuador.com</a> · © NEZU S.A.S. · Licencia Apache 2.0.</sub>
 </div>
