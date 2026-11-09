@@ -1,6 +1,6 @@
 # Cómo contribuir
 
-Gracias por el interés en ADB Bridge. Este repositorio lo mantiene NEZU S.A.S. y lo publicamos para que clientes, integradores y colaboradores puedan consultarlo, instalarlo y proponer mejoras. La [licencia](LICENSE.md) explica qué está permitido.
+Gracias por el interés en ADB Bridge. Este repositorio lo mantiene NEZU S.A.S. y lo publicamos para que clientes, integradores y colaboradores puedan consultarlo, instalarlo y proponer mejoras. Se publica bajo la [licencia Apache 2.0](LICENSE).
 
 ## Antes de empezar
 
@@ -16,7 +16,7 @@ Gracias por el interés en ADB Bridge. Este repositorio lo mantiene NEZU S.A.S. 
 4. Mantén el estilo del código existente y no añadas dependencias sin justificarlas en la descripción.
 5. No incluyas secretos, direcciones internas ni datos de clientes en código, pruebas ni capturas.
 
-Revisamos cada pull request y respondemos en el propio hilo. Al enviarlo aceptas que tu aportación se publique bajo la licencia de este repositorio.
+Revisamos cada pull request y respondemos en el propio hilo. Al enviarlo aceptas que tu aportación se publique bajo la licencia Apache 2.0 de este repositorio.
 
 ## Commits
 
