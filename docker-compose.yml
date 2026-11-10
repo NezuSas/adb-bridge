@@ -6,11 +6,19 @@ services:
     container_name: adb-bridge
     network_mode: host
     restart: unless-stopped
+    environment:
+      # Recomendado: sin token, cualquiera que alcance el puerto ejecuta comandos en las pantallas.
+      # Los clientes envían la cabecera `Authorization: Bearer <token>`.
+      # ADB_BRIDGE_TOKEN: "cambia-este-valor"
+      # Opcional: solo estos dispositivos aceptan comandos (separados por comas).
+      # ADB_BRIDGE_ALLOWED_DEVICES: "192.168.1.50:5555,192.168.1.51:5555"
+      ADB_BRIDGE_TOKEN: "${ADB_BRIDGE_TOKEN:-}"
+      ADB_BRIDGE_ALLOWED_DEVICES: "${ADB_BRIDGE_ALLOWED_DEVICES:-}"
     volumes:
       # Conserva la clave ADB del puente entre reinicios: así las pantallas no vuelven a pedir autorización.
       - adb_keys:/root/.android
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:5001/', timeout=3)\""]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:5001/health"]
       interval: 30s
       timeout: 5s
       retries: 3

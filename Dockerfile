@@ -1,29 +1,25 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
-# Opcional, hace logs sin buffer y evita .pyc
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
 WORKDIR /app
 
-# ADB (paquete correcto en Debian/Ubuntu)
+# El binario adb que habla con las pantallas; curl solo para la comprobación de salud.
 RUN apt-get update && apt-get install -y --no-install-recommends \
       android-tools-adb curl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Copia el código (asegúrate de que aquí está tu main.py con FastAPI(app))
-COPY . .
+# Las dependencias se instalan antes que el código: cambiar el código no vuelve a instalarlas.
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Instala dependencias (versionadas es mejor)
-# Si tienes requirements.txt, usa esa línea; si no, la de abajo.
-# RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir "fastapi>=0.115" "uvicorn[standard]>=0.30" "pydantic>=2.7"
+COPY main.py .
+COPY adb_bridge ./adb_bridge
 
-# Expone el puerto que realmente usas
 EXPOSE 5001
 
-# (Opcional) Healthcheck simple
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s CMD curl -fsS http://127.0.0.1:5001/ || exit 1
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
+    CMD curl -fsS http://127.0.0.1:5001/health || exit 1
 
-# Ejecuta el server
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5001"]
