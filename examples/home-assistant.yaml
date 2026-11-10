@@ -3,12 +3,17 @@
 #
 #   BRIDGE   → http://192.168.1.10:5001   (equipo donde corre adb-bridge)
 #   PANTALLA → 192.168.1.50:5555          (Android con depuración por red)
+#
+# Si el puente tiene ADB_BRIDGE_TOKEN, añade a cada rest_command la cabecera de abajo
+# (la del primero sirve de ejemplo; guarda el token en secrets.yaml como `adb_bridge_token`).
 
 rest_command:
   pizarra_despertar:
     url: "http://192.168.1.10:5001/adb/execute"
     method: POST
     content_type: "application/json"
+    headers:
+      Authorization: !secret adb_bridge_token  # valor: "Bearer <token>"
     payload: '{"adb_identifier": "192.168.1.50:5555", "command": "input keyevent KEYCODE_WAKEUP"}'
     timeout: 30
 

@@ -12,9 +12,18 @@ Gracias por el interés en ADB Bridge. Este repositorio lo mantiene NEZU S.A.S. 
 
 1. Parte de `main` en una rama con un nombre descriptivo.
 2. Un cambio por pull request, pequeño y explicado: qué resuelve y cómo lo probaste.
-3. Antes de enviarlo, ejecuta las comprobaciones del proyecto (Python 3 y FastAPI): `python -m compileall main.py`.
-4. Mantén el estilo del código existente y no añadas dependencias sin justificarlas en la descripción.
+3. Antes de enviarlo, ejecuta las comprobaciones del proyecto desde la raíz (Python 3.10 o superior):
+
+   ```bash
+   pip install -r requirements-dev.txt
+   ruff check . && ruff format --check .
+   pytest
+   ```
+
+   Las pruebas usan un `adb` simulado (`tests/conftest.py`), así que no hace falta ningún dispositivo. Un cambio de comportamiento viene con su prueba; si corriges un fallo, añade primero la prueba que lo reproduce.
+4. Mantén el estilo del código existente (`ruff format` lo aplica) y no añadas dependencias sin justificarlas en la descripción.
 5. No incluyas secretos, direcciones internas ni datos de clientes en código, pruebas ni capturas.
+6. Anota el cambio en [CHANGELOG.md](CHANGELOG.md), en la sección de la próxima versión.
 
 Revisamos cada pull request y respondemos en el propio hilo. Al enviarlo aceptas que tu aportación se publique bajo la licencia Apache 2.0 de este repositorio.
 
